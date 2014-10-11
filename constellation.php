@@ -15,17 +15,16 @@
     </head>
     <body>
 <div style="position:absolute;display:block;color:white">Click, hold and drag to rotate. right click to restart rotation. hover on a 'star' to see the name. mousewhere to zoom during rotation (as I'm still more than a little shaky on the camera positioning math)</div>
-        <script src="Three.js"></script>
+        <script src="lib/threejs/build/three.min.js"></script>
 
         <script>
-<?
+<?php
 
 require_once('db.inc.php');
 
 $constellation=20000020;
-if (array_key_exists('constellation',$_GET) && is_numeric($_GET['constellation']))
-{
-$constellation=$_GET['constellation'];
+if ( array_key_exists('constellation', $_GET ) && is_numeric( $_GET['constellation'] ) ){
+    $constellation=$_GET['constellation'];
 }
 
 
@@ -33,16 +32,13 @@ $sql="select max(x)-min(x) scaler,min(x) minx,min(y) miny,min(z) minz from mapSo
 $stmt = $dbh->prepare($sql);
 $stmt->execute(array($constellation));
 
-$scaler=0;
-$minx=0;
-$miny=0;
-$minz=0;
-if ($row = $stmt->fetchObject())
-{
-$scaler=$row->scaler;
-$minx=$row->minx;
-$miny=$row->miny;
-$minz=$row->minz;
+$scaler = $minx = $miny = $minz = 0;
+
+if ( $row = $stmt->fetchObject() ){
+    $scaler=$row->scaler;
+    $minx=$row->minx;
+    $miny=$row->miny;
+    $minz=$row->minz;
 }
 
 $sql="select distinct constellationid,solarsystemname,security,floor((x-:minx)/:scalar *420) x ,floor((y-:miny)/:scalar *420) y,floor((z-:minz)/:scalar *420) z,if(constellationid=:constellation,luminosity,0.1) luminosity  from mapSolarSystems,mapSolarSystemJumps where fromconstellationid=:constellation and (mapSolarSystemJumps.toSolarSystemID=solarsystemid or mapSolarSystemJumps.fromSolarSystemID=solarsystemid)";
@@ -84,7 +80,7 @@ echo "constellation=".$constellation.";";
 
 ?>
 // Edit this!
-url="http://www.fuzzwork.co.uk/starmap/constellation.html";
+url="http://localhost/eve-starmap/constellation.html";
 target = new THREE.Vector3( 0, 0, 0 );
 arc=0;
 radius=700;
@@ -132,18 +128,18 @@ var mouse = { x: 0, y: 0 }, INTERSECTED,position= { x: 0, y: 0 };
                 // add the mouse move listener
                 // render 30 times a second (should also look 
                 // at requestAnimationFrame) 
-                setInterval(update,1000/30); 
+                //setInterval( update, 1000 / 30); 
                 renderer.domElement.oncontextmenu= function(){ return false;} 
             }
 
             // the main update function, called 30 times a second
 
-            function update() {
+            /*function update() {
                         
 
                 var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
                 projector.unprojectVector( vector, camera );
-                var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+                //var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
 
                 var intersects = ray.intersectObjects( scene.children );
 
@@ -174,7 +170,7 @@ var mouse = { x: 0, y: 0 }, INTERSECTED,position= { x: 0, y: 0 };
                 camera.lookAt( target );
                 renderer.render( scene, camera );
 
-            }
+            }*/
 
             
             function makeParticles() { 
@@ -200,8 +196,8 @@ var mouse = { x: 0, y: 0 }, INTERSECTED,position= { x: 0, y: 0 };
                 
                 for (var jump in jumps){
                      var geometry = new THREE.Geometry();
-                     geometry.vertices.push(new THREE.Vertex(new THREE.Vector3(jumps[jump][0]-210, jumps[jump][1]-210, jumps[jump][2]-210)));
-                     geometry.vertices.push(new THREE.Vertex(new THREE.Vector3(jumps[jump][3]-210, jumps[jump][4]-210, jumps[jump][5]-210)));
+                     geometry.vertices.push( new THREE.Vector3(jumps[jump][0]-210, jumps[jump][1]-210, jumps[jump][2]-210 ) );
+                     geometry.vertices.push( new THREE.Vector3(jumps[jump][3]-210, jumps[jump][4]-210, jumps[jump][5]-210 ) );
                      var line = new THREE.Line( geometry,  material );
                      scene.add(line);
                 }
@@ -226,18 +222,15 @@ var mouse = { x: 0, y: 0 }, INTERSECTED,position= { x: 0, y: 0 };
                 onMouseDownPosition.x = event.clientX - onMouseDownPosition.x;
                 onMouseDownPosition.y = event.clientY - onMouseDownPosition.y;
 
-if (event.which==3)
-{
-rotate=true;
-}
-
-                if ( onMouseDownPosition.length() > 5 ) {
-
-                    return;
-
+                if (event.which==3) {
+                    rotate=true;
                 }
 
-                update();
+                if ( onMouseDownPosition.length() > 5 ) {
+                    return;
+                }
+
+                //update();
 
             }
 
@@ -258,7 +251,7 @@ rotate=true;
 
                 var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
                 projector.unprojectVector( vector, camera );
-                var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+                //var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
 
                 var intersects = ray.intersectObjects( scene.children );
 
@@ -288,7 +281,7 @@ rotate=true;
                     camera.position.y = radius * Math.sin( phi * Math.PI / 360 );
                     camera.position.z = radius * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
                     camera.updateMatrix();
-                    update();
+                    //update();
                 }
 
             }
@@ -303,7 +296,7 @@ rotate=true;
                 {
                      radius -=event.wheelDelta; 
                 }
-                update();
+                //update();
 
         }            
         </script>
