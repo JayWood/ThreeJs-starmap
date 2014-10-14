@@ -73,11 +73,6 @@ echo $jumps."];";
 
 echo "constellation=".$constellation.";";
 
-
-
-
-
-
 ?>
 // Edit this!
 url="http://localhost/eve-starmap/constellation.html";
