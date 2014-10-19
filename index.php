@@ -9,9 +9,16 @@
 <html>
 	<head>
 			<title>Testing</title>
+			<script type="text/javascript" src="js/Detector.js"></script>
 	</head>
 	<body>
-			<script type="text/javascript" src="lib/threejs/build/three.min.js"></script>
-			<script type="text/javascript" src="js/main.js"></script>
+		<div id="ThreeJs"></div>
+		<script type="text/javascript" src="lib/threejs/build/three.min.js"></script>
+		<script type="text/javascript" src="js/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/Threex.FullScreen.js"></script>
+		<script type="text/javascript" src="js/Threex.WindowResize.js"></script>
+
+		<!-- My Script -->
+		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>
