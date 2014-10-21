@@ -1,1 +1,10 @@
-<?php $dbh = new PDO('mysql:host=localhost;dbname=sdecrius1', 'root', ''); ?>
+<?php 
+
+class eveDB{
+
+	private $db
+
+	function eveDB( $host, $db, $user, $pass ){
+		$this->db = new PDO( "mysql:host=$host;dbname=$db", $user, $pass );
+	}
+}

@@ -1,0 +1,5 @@
+<?php
+
+/**
+ * Javascript Solarsystem Variables
+ */
