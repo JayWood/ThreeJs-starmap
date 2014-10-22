@@ -1,22 +1,17 @@
 <?php
-
-/**
- * Testing for Three.js
- */
-
+	include 'functions.php';
 ?>
-
 <html>
 	<head>
 			<title>Testing</title>
 			<script type="text/javascript" src="js/Detector.js"></script>
-			<script type="text/javascript"><?php include( 'js_vars.php' ); ?></script>
+			<script type="text/javascript">
+				var map_center = <?php echo json_encode( $map_center ); ?>;
+				var systems = <?php echo json_encode( $systems ); ?>;
+			</script>
 	</head>
 	<body>
-		<?php 
-		$x = -8.85119031484906e16;
-		$y = -8.850925647176062e16
-		?>
+		<div class="header"><h1>Eve Starmap</h1></div>
 		<div id="ThreeJs"></div>
 		<script type="text/javascript" src="lib/threejs/build/three.min.js"></script>
 		<script type="text/javascript" src="js/TrackballControls.js"></script>

@@ -18,7 +18,16 @@ function init(){
 	scene.add( camera );
 
 	camera.position.set( 0, 150, 400 );
-	camera.lookAt( scene.position );
+
+	if( typeof( map_center ) !== 'undefined' ){
+		// We have a map center, let's move this camera.
+		console.log( map_center );
+		var mc_camera = new THREE.Vector3( map_center.x, map_center.y, map_center.z );
+		console.log( mc_camera );
+		camera.lookAt( mc_camera );
+	}else{
+		camera.lookAt( scene.position );
+	}
 
 	renderer = ( Detector.webgl ) ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
 	renderer.setSize( screenwidth, screenheight );
@@ -45,12 +54,14 @@ function init(){
 			transparent: true,
 		});
 
-	for( var p = 0; p < particleCount; p++ ){
-		var px = Math.random() * 500 - 250,
-			py = Math.random() * 500 - 250,
-			pz = Math.random() * 500 - 250;
+	if( typeof( systems ) != 'undefined' ){
+		for( var p = 0; p < systems.length; p++ ){
+			var px = systems[p].x,
+				py = systems[p].y,
+				pz = systems[p].z;
 
-		particles.vertices.push( new THREE.Vector3( px, py, pz ) );
+			particles.vertices.push( new THREE.Vector3( px, py, pz ) );
+		}
 	}
 
 	var particleSystem = new THREE.PointCloud( particles, pMaterial );

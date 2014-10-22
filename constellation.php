@@ -51,16 +51,17 @@ if ( $row = $stmt->fetchObject() ){
 
 $sql="
     select distinct
-    constellationid,
-    solarsystemname,
-    security,
-    floor( ( x-:minx ) / :scalar *420 ) x,
-    floor( ( y-:miny ) / :scalar *420 ) y,
-    floor( ( z-:minz ) / :scalar *420 ) z,
-    if( constellationid=:constellation, luminosity, 0.1 ) luminosity
-    from mapSolarSystems,mapSolarSystemJumps 
-    where fromconstellationid=:constellation 
-    and ( mapSolarSystemJumps.toSolarSystemID = solarsystemid or mapSolarSystemJumps.fromSolarSystemID=solarsystemid )
+        constellationid,
+        solarsystemname,
+        security,
+        floor( ( x - :minx ) / :scalar * 420 ) x,
+        floor( ( y - :miny ) / :scalar * 420 ) y,
+        floor( ( z - :minz ) / :scalar * 420 ) z,
+        if( constellationid = :constellation, luminosity, 0.1 ) luminosity
+        from mapSolarSystems,
+             mapSolarSystemJumps 
+        where fromconstellationid=:constellation 
+        and ( mapSolarSystemJumps.toSolarSystemID = solarsystemid or mapSolarSystemJumps.fromSolarSystemID=solarsystemid )
     ";
 
 $stmt = $dbh->prepare($sql);
@@ -78,15 +79,15 @@ echo $stars."];";
 
 $sql="
     select 
-        floor( ( mss1.x - :minx ) / :scalar * 420 ) fx ,
+        floor( ( mss1.x - :minx ) / :scalar * 420 ) fx,
         floor( ( mss1.y - :miny ) / :scalar * 420 ) fy,
         floor( ( mss1.z - :minz ) / :scalar * 420 ) fz,
         floor( ( mss2.x - :minx ) / :scalar * 420 ) tx,
         floor( ( mss2.y - :miny ) / :scalar * 420 ) ty,
         floor( ( mss2.z - :minz ) / :scalar * 420 ) tz 
         from mapSolarSystems mss1,
-            mapSolarSystems mss2,
-            mapSolarSystemJumps 
+             mapSolarSystems mss2,
+             mapSolarSystemJumps 
         where mss1.solarsystemid=fromSolarSystemID 
         and mss2.solarsystemid=toSolarSystemID
         and fromconstellationid=:constellation";
